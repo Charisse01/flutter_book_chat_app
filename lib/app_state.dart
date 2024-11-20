@@ -1,4 +1,4 @@
-import 'dart:async';                                     // new
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
@@ -8,38 +8,19 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
-import 'guest_book_message.dart';                        // new
-
+import 'guest_book_message.dart';
 
 class ApplicationState extends ChangeNotifier {
-
-  // Current content of ApplicationState elided ...
-
-  // Add from here...
-  Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (!_loggedIn) {
-      throw Exception('Must be logged in');
-    }
-
-    return FirebaseFirestore.instance
-        .collection('guestbook')
-        .add(<String, dynamic>{
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
+  ApplicationState() {
+    init();
   }
-  // ...to here.
 
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
-  // Add from here...
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-  // ...to here.
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -49,23 +30,6 @@ class ApplicationState extends ChangeNotifier {
       EmailAuthProvider(),
     ]);
 
-    FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn = true;
-      } else {
-        _loggedIn = false;
-      }
-      notifyListeners();
-    });
-      Future<void> init() async {
-
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-
-    FirebaseUIAuth.configureProviders([
-      EmailAuthProvider(),
-    ]);
-    
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
@@ -93,6 +57,21 @@ class ApplicationState extends ChangeNotifier {
       notifyListeners();
     });
   }
-  
+
+  Future<DocumentReference> addMessageToGuestBook(String message) {
+    if (!_loggedIn) {
+      throw Exception('Must be logged in');
+    }
+
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
+      'text': message,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
   }
 }
+
+

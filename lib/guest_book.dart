@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'guest_book_message.dart';
+
 import 'src/widgets.dart';
 
-import 'guest_book_message.dart';
 
 
 class GuestBook extends StatefulWidget {
+
   // Modify the following line:
   const GuestBook({
     super.key, 
@@ -19,7 +21,7 @@ class GuestBook extends StatefulWidget {
   final List<GuestBookMessage> messages; // new
 
   @override
-  _GuestBookState createState() => _GuestBookState();
+  State<GuestBook> createState() => _GuestBookState();
 }
 
 class _GuestBookState extends State<GuestBook> {

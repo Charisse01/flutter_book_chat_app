@@ -1,12 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart'
-    hide EmailAuthProvider, PhoneAuthProvider;    
-import 'package:flutter/material.dart';           
-import 'package:provider/provider.dart';          
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-import 'app_state.dart';    
-import 'guest_book.dart';                         // new
-import 'src/authentication.dart';                 
+import 'package:firebase_auth/firebase_auth.dart' // new
+    hide EmailAuthProvider, PhoneAuthProvider;    // new
+import 'package:flutter/material.dart';           // new
+import 'package:provider/provider.dart';          // new
+
+import 'app_state.dart';                          // new
+import 'src/authentication.dart';                 // new
 import 'src/widgets.dart';
+import 'guest_book.dart';                          // new
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,7 +25,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'November 19 2024'),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           // Add from here
           Consumer<ApplicationState>(
@@ -43,7 +47,6 @@ class HomePage extends StatelessWidget {
           const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,18 +56,12 @@ class HomePage extends StatelessWidget {
                   GuestBook(
                     addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
-                     messages: appState.guestBookMessages,
+                    messages: appState.guestBookMessages, // new
                   ),
                 ],
               ],
             ),
           ),
-
-          /* hasta aqui no funciona la parte de 
-          Conecte la interfaz de usuario 
-          y la base de datos
-          */
-
         ],
       ),
     );
